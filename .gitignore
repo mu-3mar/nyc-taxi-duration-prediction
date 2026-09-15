@@ -38,3 +38,6 @@ temp.html
 .env.*
 !.env.example
 *.pem
+
+# Local large dataset stored outside the repository
+Data/
