@@ -1,26 +1,27 @@
-# Python
+# Python cache / compiled files
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 *$py.class
 *.so
-.Python
-.env
-.venv
-venv/
-ENV/
 
 # Jupyter
 .ipynb_checkpoints/
-*.ipynb_checkpoints
 
-# Data & models (optional: track small samples only)
-data/
-Data/
-models/
+# Testing / tooling cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
 
-*.pkl
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
 
-# IDE & OS
+# IDE / OS
 .idea/
 .vscode/
 *.swp
@@ -28,7 +29,12 @@ models/
 .DS_Store
 Thumbs.db
 
-# Misc
+# Logs / temporary files
 *.log
 temp.html
-blob*
+
+# Secrets / local environment
+.env
+.env.*
+!.env.example
+*.pem
