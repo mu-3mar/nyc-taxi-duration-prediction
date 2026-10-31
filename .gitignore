@@ -40,4 +40,4 @@ temp.html
 *.pem
 
 # Local large dataset stored outside the repository
-Data/
+*.csv
