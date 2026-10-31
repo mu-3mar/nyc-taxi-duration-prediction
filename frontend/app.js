@@ -1,10 +1,7 @@
-// Leave empty to use the same origin. Override with ?api=http://127.0.0.1:8000
-// when the static frontend and FastAPI are served separately.
+// Leave empty to use the same origin. Override with ?api=... when the static
+// frontend and FastAPI are served separately.
 const configuredApi = new URLSearchParams(window.location.search).get("api");
-const sameOrigin = window.location.protocol === "file:" ? "http://127.0.0.1:8000" : window.location.origin;
-const apiCandidates = configuredApi
-  ? [configuredApi]
-  : [sameOrigin, "http://127.0.0.1:8000"];
+const apiCandidates = configuredApi ? [configuredApi] : [window.location.origin];
 let activeApiBase = apiCandidates[0].replace(/\/+$/, "");
 
 const form = document.querySelector("#prediction-form");

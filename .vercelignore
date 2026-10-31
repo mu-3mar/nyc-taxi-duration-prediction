@@ -1,0 +1,42 @@
+# Training data and notebooks
+data/
+notebooks/
+
+# Evaluation and development-only code
+scripts/
+
+# Local and container-only files
+Dockerfile
+.dockerignore
+requirements-docker.txt
+.git/
+.gitignore
+
+# Documentation and local metadata
+README.md
+data.md
+
+# Python caches and temporary files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+*.log
+*.tmp
+*.temp
+
+# Local environments and editor files
+.venv/
+venv/
+env/
+ENV/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

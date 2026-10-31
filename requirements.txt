@@ -1,7 +1,8 @@
-# Full development and training environment
--r requirements-docker.txt
-
-# Notebooks & EDA
-matplotlib>=3.6.0
-seaborn>=0.12.0
-jupyter>=1.0.0
+# Native Vercel runtime dependencies for the prediction API
+pandas>=1.5.0
+numpy>=1.21.0
+# Keep this aligned with the version used to serialize models/model.pkl.
+scikit-learn==1.5.1
+joblib>=1.2.0
+fastapi>=0.100.0
+pydantic>=2.0.0
