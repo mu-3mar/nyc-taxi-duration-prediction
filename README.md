@@ -4,6 +4,14 @@ An end-to-end machine-learning project that predicts the duration of a New York 
 
 **Author:** Muhammad Ammar · **Repository:** `mu-3mar/nyc-taxi-duration-prediction` · **[Docker Image](https://hub.docker.com/r/mu3mar/nyc-taxi-duration-api)**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Try%20TripSight-F04B24?style=for-the-badge)](https://nyc-taxi-duration-prediction.vercel.app/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/mu3mar/nyc-taxi-duration-api)
+
+> **[Open the live demo](https://nyc-taxi-duration-prediction.vercel.app/)**  
+> Enter pickup and drop-off coordinates with trip details to get an estimated duration in minutes.
+
 | | |
 |---|---|
 | **Task** | Regression — predict `trip_duration` in seconds |
@@ -22,12 +30,13 @@ An end-to-end machine-learning project that predicts the duration of a New York 
 1. [Project overview](#1-project-overview)
 2. [Dataset](#2-dataset)
 3. [ML workflow](#3-ml-workflow)
-4. [System architecture](#4-system-architecture)
-5. [API](#5-api)
-6. [Frontend](#6-frontend)
-7. [Installation and usage](#7-installation-and-usage)
-8. [Project structure](#8-project-structure)
-9. [Limitations and next steps](#9-limitations-and-next-steps)
+4. [Model results](#4-model-results)
+5. [System architecture](#5-system-architecture)
+6. [API](#6-api)
+7. [Frontend](#7-frontend)
+8. [Installation and usage](#8-installation-and-usage)
+9. [Project structure](#9-project-structure)
+10. [Limitations and next steps](#10-limitations-and-next-steps)
 
 ## 1. Project overview
 
@@ -88,7 +97,47 @@ CSV files are ignored by Git because the source data is not intended to be publi
 
 The serialized model is kept in `models/model.pkl`, the single model artifact used by the API.
 
-## 4. System architecture
+## 4. Model results
+
+The model was trained and evaluated in [notebooks/02_model.ipynb](notebooks/02_model.ipynb) using the saved Ridge regression pipeline:
+
+```text
+Pipeline:
+  PolynomialFeatures(degree=3)
+  MinMaxScaler()
+  Ridge(alpha=0.1)
+```
+
+### Training performance
+
+| Metric | Result |
+|---|---:|
+| **R² score** | **63.25%** |
+| **MSE** | **0.1517** |
+
+These are the recorded training results from the notebook:
+
+```text
+Train R² Score: 63.25 %, MSE: 0.1517
+```
+
+> **How to read this:** this is a regression problem, so “accuracy” is not the standard metric. The reported **R² score** indicates how much variance in the log-transformed trip duration is explained by the model, while **MSE** measures the average squared prediction error in that transformed target space. The reported score is a training score; it should not be interpreted as production accuracy or a guarantee for every trip.
+
+### What was tried and validated
+
+- Exploratory data analysis for distributions, correlations, duplicates, and outliers.
+- Time-based feature extraction from `pickup_datetime`.
+- Straight-line route distance using the Haversine formula.
+- Log transformation of distance and target duration to reduce skew.
+- Polynomial feature expansion with degree 3.
+- Min-max feature scaling.
+- Ridge regression with `alpha=0.1`.
+- Saving and loading the trained artifact with `joblib`.
+- FastAPI inference through `POST /predict`.
+- A standalone browser frontend for entering trip data and displaying minutes and approximate seconds.
+- Docker packaging for the API runtime.
+
+## 5. System architecture
 
 ```mermaid
 graph LR
@@ -108,7 +157,7 @@ http://127.0.0.1:5500/?api=http://127.0.0.1:8000
 
 Without `?api=...`, the page uses the same origin. This is convenient when a reverse proxy serves both pieces together.
 
-## 5. API
+## 6. API
 
 Start the backend from the repository root:
 
@@ -146,7 +195,7 @@ Example response:
 
 `predicted_duration` is in minutes. The API accepts ISO-like timestamps, including the `datetime-local` value produced by the frontend.
 
-## 6. Frontend
+## 7. Frontend
 
 The [frontend/](frontend) directory is a standalone static application:
 
@@ -169,7 +218,7 @@ http://127.0.0.1:5500/?api=http://127.0.0.1:8000
 
 The **Randomize trip** button generates plausible NYC coordinates, a recent pickup time, and valid categorical values. It does not generate a prediction locally: predictions require the trained model through the API.
 
-## 7. Installation and usage
+## 8. Installation and usage
 
 ```bash
 git clone https://github.com/mu-3mar/nyc-taxi-duration-prediction.git
@@ -228,7 +277,7 @@ and trained model. The frontend remains a separate static application.
 The runtime pins scikit-learn to `1.5.1`, which is the version used to serialize
 the current model artifact.
 
-## 8. Project structure
+## 9. Project structure
 
 ```text
 nyc-taxi-duration-prediction/
@@ -259,7 +308,7 @@ nyc-taxi-duration-prediction/
     └── *.csv                         # local, ignored data files
 ```
 
-## 9. Limitations and next steps
+## 10. Limitations and next steps
 
 - The original data cannot be reproduced from the repository because it is private.
 - Predictions do not use live traffic or map routing; coordinates are converted only into straight-line haversine distance.
