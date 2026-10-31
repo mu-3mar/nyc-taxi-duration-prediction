@@ -2,7 +2,7 @@
 
 An end-to-end machine-learning project that predicts the duration of a New York City taxi trip from its route, pickup time, passenger count, vendor, and store-and-forward status. The trained regression model is exposed through a FastAPI backend and a dependency-free browser frontend.
 
-**Author:** Muhammad Ammar · **Repository:** `mu-3mar/nyc-taxi-duration-prediction`
+**Author:** Muhammad Ammar · **Repository:** `mu-3mar/nyc-taxi-duration-prediction` · **[Docker Image](https://hub.docker.com/r/mu3mar/nyc-taxi-duration-api)**
 
 | | |
 |---|---|
@@ -12,6 +12,7 @@ An end-to-end machine-learning project that predicts the duration of a New York 
 | **Model** | Saved Ridge regression pipeline (`models/model.pkl`) |
 | **Stack** | Python, pandas, NumPy, scikit-learn, joblib, FastAPI/Uvicorn, vanilla HTML/CSS/JavaScript |
 | **Frontend** | Static and independent from the API; it calls FastAPI only when a backend is available |
+| **Dockerization** | FastAPI inference service is containerized and published as [`mu3mar/nyc-taxi-duration-api`](https://hub.docker.com/r/mu3mar/nyc-taxi-duration-api) |
 | **Status** | Local model/API and browser UI are wired end to end |
 
 > **Important:** this is a demonstration model. The estimate does not account for live traffic, road closures, weather, or real-time taxi availability.
@@ -204,7 +205,18 @@ This command requires `data/val.csv` and `data/test.csv`.
 
 ### Docker
 
-Build and run the API image:
+The FastAPI inference service has been Dockerized with a lightweight runtime image.
+The image contains only the API dependencies, source code, and trained model;
+training notebooks, datasets, and frontend files are kept outside the image.
+
+The published image is available on [Docker Hub](https://hub.docker.com/r/mu3mar/nyc-taxi-duration-api):
+
+```bash
+docker pull mu3mar/nyc-taxi-duration-api:latest
+docker run --rm -p 8000:8000 mu3mar/nyc-taxi-duration-api:latest
+```
+
+To build and run the image locally instead:
 
 ```bash
 docker build -t nyc-taxi-duration-api .
@@ -253,7 +265,7 @@ nyc-taxi-duration-prediction/
 - Predictions do not use live traffic or map routing; coordinates are converted only into straight-line haversine distance.
 - There is no local fallback model in the browser. The UI intentionally stays independent, while a prediction requires the API.
 - API input validation is currently limited to the Pydantic field types and the HTML form constraints.
-- The project would benefit from automated API tests, pinned dependency versions, a Docker deployment, and a single reproducible training script.
+- The project would benefit from automated API tests, a CI/CD pipeline for the Docker image, and a single reproducible training script.
 
 ## Credits
 
