@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f5">
+  <title>TripSight — NYC Taxi Duration Predictor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="brand-bar">
+      <a class="brand" href="#top" aria-label="TripSight home">
+        <span class="brand-mark"><iframe class="brand-logo-frame" src="./logo-animated.html?color=%23F04B24&amp;v=2" title="Animated TripSight logo" aria-label="Animated TripSight logo" tabindex="-1"></iframe></span>
+        <span><strong>TripSight</strong><small>NYC TAXI DURATION PREDICTOR</small></span>
+      </a>
+      <div class="api-pill"><span class="live-dot"></span><span id="api-status">Checking API…</span></div>
+    </header>
+
+    <section class="intro" id="top">
+      <p class="eyebrow">NYC TAXI TRIP DURATION · ML DEMO</p>
+      <h1>Plan the ride <em>before it starts.</em></h1>
+      <p class="intro-copy">Enter a pickup point, destination, time, and trip details. The trained regression model estimates the ride duration in minutes.</p>
+    </section>
+
+    <div class="notice"><span>i</span><p><strong>Demo estimate.</strong> Results are statistical predictions, not a guarantee of traffic or travel time.</p></div>
+
+    <form id="prediction-form">
+      <section class="form-card">
+        <div class="card-heading"><div><span class="step">01</span><h2>Trip details</h2></div><p>When and how you travel</p></div>
+        <div class="field-grid">
+          <label class="field"><span>Pickup date and time</span><input id="pickup-datetime" name="pickup_datetime" type="datetime-local" value="2016-06-08T07:36" required></label>
+          <label class="field"><span>Passenger count</span><input id="passenger-count" name="passenger_count" type="number" min="1" max="6" step="1" value="1" required></label>
+          <label class="field"><span>Vendor</span><select id="vendor-id" name="vendor_id"><option value="1">Vendor 1</option><option value="2">Vendor 2</option></select></label>
+          <label class="field"><span>Store and forward flag</span><select id="store-and-fwd-flag" name="store_and_fwd_flag"><option value="N">No</option><option value="Y">Yes</option></select><small>Whether the trip record was stored before sending.</small></label>
+        </div>
+      </section>
+
+      <section class="form-card">
+        <div class="card-heading"><div><span class="step">02</span><h2>Route coordinates</h2></div><p>NYC latitude and longitude</p></div>
+        <div class="route-grid">
+          <div class="route-box"><h3>Pickup</h3><label class="field"><span>Latitude</span><input id="pickup-latitude" name="pickup_latitude" type="number" step="any" min="-90" max="90" value="40.7359" required></label><label class="field"><span>Longitude</span><input id="pickup-longitude" name="pickup_longitude" type="number" step="any" min="-180" max="180" value="-73.9856" required></label></div>
+          <div class="route-box"><h3>Drop-off</h3><label class="field"><span>Latitude</span><input id="dropoff-latitude" name="dropoff_latitude" type="number" step="any" min="-90" max="90" value="40.7605" required></label><label class="field"><span>Longitude</span><input id="dropoff-longitude" name="dropoff_longitude" type="number" step="any" min="-180" max="180" value="-73.9803" required></label></div>
+        </div>
+      </section>
+
+      <div class="form-actions"><button type="button" class="reset-button" id="randomize-inputs">⤨ Randomize trip</button><button type="button" class="reset-button" id="reset-form">Reset</button><span>9 trip inputs · FastAPI optional</span><button type="submit" class="primary-button" id="submit-button">Predict duration <span>↗</span></button></div>
+    </form>
+
+    <section class="result-card" id="result-panel" aria-live="polite">
+      <div class="result-top"><span class="result-icon result-symbol">↗</span><div><p class="eyebrow">YOUR RESULT</p><h2 id="result-title">Your trip duration estimate will appear here.</h2></div></div>
+      <p id="result-summary">Enter the trip details, then select “Predict duration”.</p>
+      <div class="duration-block"><div><span>Estimated duration</span><strong id="duration-value">—</strong></div><div><span>Approx. seconds</span><strong id="duration-seconds">—</strong></div></div>
+      <div class="error-message" id="error-message" role="alert" hidden></div>
+      <p class="result-disclaimer">The frontend is static and can be opened or served by itself. Prediction requests are sent only when the configured FastAPI backend is available.</p>
+    </section>
+    <footer><span>TRIPSIGHT · NYC TAXI DURATION PREDICTOR</span><span class="footer-credit">Designed & built by <strong>Muhammad Ammar</strong></span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
