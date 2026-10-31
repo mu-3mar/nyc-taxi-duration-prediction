@@ -27,6 +27,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Vercel serves this directory's static files through FastAPI's frontend
+# integration, while the declared API routes below retain precedence.
+app.frontend("/", directory=os.path.join(ROOT, "frontend"))
+
 model = joblib.load(MODEL_PATH)
 
 
@@ -40,11 +44,6 @@ class TripData(BaseModel):
     dropoff_latitude: float
     passenger_count: int
     store_and_fwd_flag: str
-
-
-@app.get("/")
-def root():
-    return {"message": "Trip Duration Prediction API", "docs": "/docs"}
 
 
 @app.post("/predict")
