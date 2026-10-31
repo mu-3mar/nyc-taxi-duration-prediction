@@ -1,11 +1,5 @@
-# Trip Duration Prediction — dependencies
-pandas>=1.5.0
-numpy>=1.21.0
-scikit-learn>=1.2.0
-joblib>=1.2.0
-fastapi>=0.100.0
-uvicorn[standard]>=0.22.0
-pydantic>=2.0.0
+# Full development and training environment
+-r requirements-docker.txt
 
 # Notebooks & EDA
 matplotlib>=3.6.0

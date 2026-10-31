@@ -179,6 +179,9 @@ source .venv/bin/activate              # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+`requirements.txt` is the complete environment for training, evaluation, notebooks,
+and the API. For the API runtime only, install `requirements-docker.txt` instead.
+
 Run the API and frontend in two terminals:
 
 ```bash
@@ -199,12 +202,28 @@ python scripts/run_evaluate.py
 
 This command requires `data/val.csv` and `data/test.csv`.
 
+### Docker
+
+Build and run the API image:
+
+```bash
+docker build -t nyc-taxi-duration-api .
+docker run --rm -p 8000:8000 nyc-taxi-duration-api
+```
+
+The Docker image installs only `requirements-docker.txt` and copies the API source
+and trained model. The frontend remains a separate static application.
+The runtime pins scikit-learn to `1.5.1`, which is the version used to serialize
+the current model artifact.
+
 ## 8. Project structure
 
 ```text
 nyc-taxi-duration-prediction/
 ├── README.md
 ├── requirements.txt
+├── requirements-docker.txt
+├── Dockerfile
 ├── models/
 │   └── model.pkl                     # API artifact
 ├── src/

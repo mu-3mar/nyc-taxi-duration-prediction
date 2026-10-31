@@ -1,0 +1,12 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.py[cod]
+
+data
+notebooks
+frontend
+scripts
+README.md
+requirements.txt
